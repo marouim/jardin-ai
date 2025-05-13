@@ -50,7 +50,7 @@ def decision_par_openai(humidite, va_pleuvoir):
         f"Le taux d'humidité du sol est de {humidite} %.\n"
         f"Il {'va' if va_pleuvoir else 'ne va pas'} pleuvoir dans les 12 prochaines heures.\n"
         f"Basé sur les prédictions météo, le taux d'humidité dans l'air, \n"
-        "Doit-on arroser le jardin ? Réponds uniquement en JSON sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes}."
+        "Doit-on arroser le jardin ? Réponds uniquement en JSON sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"raison\": raison}."
     )
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
