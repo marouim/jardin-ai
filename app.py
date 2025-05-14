@@ -6,7 +6,6 @@ from openai import OpenAI
 app = Flask(__name__)
 
 # Config depuis les variables d’environnement
-
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 SONDE_IP = os.getenv("SONDE_IP")
 VALEUR_SEC = float(os.getenv("VALEUR_SEC", "850"))
