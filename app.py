@@ -67,7 +67,7 @@ def va_pleuvoir_dans_12h():
             mm_pluie = mm_pluie + pluie
         
         print(" => Total pluie 12h: \033[94m" + str(round(mm_pluie,2)) + "mm\033[0m")
-        return mm_pluie
+        return round(mm_pluie,2)
     else:
         print(" => Service OpenWeatherMap \033[91mdésactivé. Cle absente.\033[0m")
         return -1
