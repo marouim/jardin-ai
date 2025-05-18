@@ -79,9 +79,10 @@ def decision_par_openai(humidite, va_pleuvoir):
         prompt = (
             f"Le taux d'humidité du sol est de {humidite} %.\n"
             f"Il va pleuvoir {va_pleuvoir} mm dans les 12 prochaines heures.\n"
-            f"Basé sur les prédictions météo, le taux d'humidité dans l'air, \n"
-            "Doit-on arroser le jardin ? Réponds uniquement en JSON sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"raison\": raison en 10 mots max}."
+            f"Basé sur les prédictions météo,\n"
+            "Doit-on arroser le jardin ? Réponds uniquement en JSON sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"pluie\": pluie attendue en mm, \"raison\": raison en 15 mots max}."
         )
+        print(" => Prompt AI: " + prompt)
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -90,7 +91,7 @@ def decision_par_openai(humidite, va_pleuvoir):
             ],
             temperature=0.3
         )
-        print(response.choices)
+        print(" => Réponse: " + response.choices[0].message.content.strip())
         return response.choices[0].message.content.strip()
     else:
         print(" => Service OpenAI desactive. Cle absente.")
@@ -110,6 +111,7 @@ def calcul_arrosage():
             return jsonify({
                 "humidite": humidite,
                 "arrosage": "non",
+                "pluie": pluie_attendue,
                 "raison": "Sonde humidite absente."
             })
         
@@ -117,6 +119,7 @@ def calcul_arrosage():
             return jsonify({
                 "humidite": humidite,
                 "arrosage": "non",
+                "pluie": pluie_attendue,
                 "raison": f"Taux d’humidité suffisant ({humidite} %)"
             })
 
@@ -124,6 +127,7 @@ def calcul_arrosage():
             return jsonify({
                 "humidite": humidite,
                 "arrosage": "non",
+                "pluie": pluie_attendue,
                 "raison": "Service OpenWeatherMap désactivé. Clé absente."
             })
         
