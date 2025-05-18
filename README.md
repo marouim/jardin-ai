@@ -3,6 +3,11 @@
 Déployer l'application en utilisant la fonctionnalité Source To Image. 
 Peut être fait en 2 clics via la console Developer de OpenShift. Add from Git. 
 
+Peut être déployé via la commande oc new-app
+```
+oc new-app https://github.com/marouim/jardin-ai.git
+```
+
 Créer les configmap et secret pour la sonde. Ils sont également partagé avec le service jardin-ai. Seul 
 
 ConfigMap
