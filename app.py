@@ -33,10 +33,10 @@ def get_humidite():
         if analog_value is None:
             raise ValueError("Valeur analogique manquante")
         humidite = round((VALEUR_SEC - analog_value) / (VALEUR_SEC - VALEUR_HUMIDE) * 100, 2)
-        print(" => Humidité: " + str(humidite))
+        print(" => Humidité: \033[94m" + str(humidite) + "\033[0m")
         return humidite
     else:
-        print(" => Sonde humidite absente")
+        print(" => Sonde humidité \033[91mabsente\033[0m")
         return -1
 
 def convert_utc_to_local(utc_timestamp, timezone_offset_seconds):
@@ -62,14 +62,14 @@ def va_pleuvoir_dans_12h():
             local_dt = convert_utc_to_local(heure["dt"], data["city"]["timezone"])
 
             print(" => Heure: " + local_dt.strftime('%Y-%m-%d %H:%M'))
-            print("    Ville: " + data["city"]["name"])
-            print("    Pluie " + str(pluie) + "mm")
+            print(" ...Ville: " + data["city"]["name"])
+            print(" ...Pluie: \033[94m" + str(pluie) + "mm\033[0m")
             mm_pluie = mm_pluie + pluie
         
-        print(" => Total pluie 12h: " + str(mm_pluie) + "mm")
+        print(" => Total pluie 12h: \033[94m" + str(round(mm_pluie,2)) + "mm\033[0m")
         return mm_pluie
     else:
-        print(" => Service OpenWeatherMap desactive. Cle absente.")
+        print(" => Service OpenWeatherMap \033[91mdésactivé. Cle absente.\033[0m")
         return -1
 
 def decision_par_openai(humidite, va_pleuvoir):
@@ -120,6 +120,13 @@ def calcul_arrosage():
                 "raison": f"Taux d’humidité suffisant ({humidite} %)"
             })
 
+        if pluie_attendue == -1:
+            return jsonify({
+                "humidite": humidite,
+                "arrosage": "non",
+                "raison": "Service OpenWeatherMap désactivé. Clé absente."
+            })
+        
         # Délègue à OpenAI
         gpt_response = decision_par_openai(humidite, pluie_attendue)
         return gpt_response, 200, {"Content-Type": "application/json"}
