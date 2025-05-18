@@ -80,7 +80,7 @@ def decision_par_openai(humidite, va_pleuvoir):
             f"Le taux d'humidité du sol est de {humidite} %.\n"
             f"Il va pleuvoir {va_pleuvoir} mm dans les 12 prochaines heures.\n"
             f"Basé sur les prédictions météo,\n"
-            "Doit-on arroser le jardin ? Réponds uniquement en JSON sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"pluie\": pluie attendue en mm, \"raison\": raison en 15 mots max}."
+            "Doit-on arroser le jardin ? Réponds uniquement en JSON sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"pluie\": pluie attendue en mm, \"humidite\": humidite au sol, \"raison\": raison en 15 mots max}."
         )
         print(" => Prompt AI: " + prompt)
         response = client.chat.completions.create(
@@ -96,8 +96,9 @@ def decision_par_openai(humidite, va_pleuvoir):
     else:
         print(" => Service OpenAI desactive. Cle absente.")
         return jsonify({
-                "humidite": 0,
+                "humidite": humidite,
                 "arrosage": "non",
+                "pluie": va_pleuvoir,
                 "raison": "Service OpenAI desactive. Cle absente."
             })
     
