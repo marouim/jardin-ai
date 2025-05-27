@@ -24,6 +24,7 @@ data:
   LAT: "latitude"
   LON: "longitude"
   PORT: "8080"
+  USE_CASE: "jardin (ou gazon)"
 ```
 
 Secret
