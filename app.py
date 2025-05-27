@@ -13,6 +13,7 @@ VALEUR_SEC = float(os.getenv("VALEUR_SEC", "850"))
 VALEUR_HUMIDE = float(os.getenv("VALEUR_HUMIDE", "400"))
 SEUIL_ARROSAGE = float(os.getenv("SEUIL_ARROSAGE", "30"))
 PORT = int(os.getenv("PORT", "8080"))
+USE_CASE = os.getenv("USE_CASE", "jardin")
 
 # Pour OpenWeatherMap
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY", "")
@@ -80,13 +81,13 @@ def decision_par_openai(humidite, va_pleuvoir):
             f"Le taux d'humidité du sol est de {humidite} %.\n"
             f"Il va pleuvoir {va_pleuvoir} mm dans les 12 prochaines heures.\n"
             f"Basé sur les prédictions météo,\n"
-            "Doit-on arroser le jardin ? Réponds uniquement en JSON sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"pluie\": pluie attendue en mm, \"humidite\": humidite au sol, \"raison\": raison en 15 mots max}."
+            "Doit-on arroser le " + USE_CASE + " ? Réponds uniquement en JSON (sans balises ```) sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"pluie\": pluie attendue en mm, \"humidite\": humidite au sol, \"raison\": raison en 15 mots max}."
         )
         print(" => Prompt AI: " + prompt)
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",
             messages=[
-                {"role": "system", "content": "Tu es un assistant d’arrosage de jardin intelligent."},
+                {"role": "system", "content": "Tu es un assistant d’arrosage de " + USE_CASE + " intelligent."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.3
