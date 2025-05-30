@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 
 app = Flask(__name__)
 
+
 # Config depuis les variables d’environnement
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 SONDE_IP = os.getenv("SONDE_IP", "")
