@@ -80,7 +80,7 @@ def decision_par_openai(humidite, va_pleuvoir):
         prompt = (
             f"Le taux d'humidité du sol est de {humidite} %.\n"
             f"Il va pleuvoir {va_pleuvoir} mm dans les 12 prochaines heures.\n"
-            f"Basé sur les prédictions météo,\n"
+            f"Basé sur les prédictions météo, et sur la cible de 60% d'humidité\n"
             "Doit-on arroser le " + USE_CASE + " ? Réponds uniquement en JSON (sans balises ```) sous la forme {\"arrosage\": \"oui/non\", \"duree\": minutes, \"pluie\": pluie attendue en mm, \"humidite\": humidite au sol, \"raison\": raison en 15 mots max}."
         )
         print(" => Prompt AI: " + prompt)
